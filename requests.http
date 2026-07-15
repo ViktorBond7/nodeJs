@@ -1,0 +1,39 @@
+### Get all books
+GET http://localhost:3000/api/books
+
+
+### Add new book
+POST http://localhost:3000/api/books
+Content-Type: application/json
+
+
+{
+  "title": "Кобзар",
+  "author": "Тарас Шевченко"
+}
+
+### Update book
+PATCH http://localhost:3000/api/books
+Content-Type: application/json
+
+{
+  "title": "Тіні забутих предків (перевидання)"
+}
+
+
+### Replace book completely
+PUT http://localhost:3000/api/books
+Content-Type: application/json
+
+{
+  "title": "Кобзар",
+  "author": "Тарас Шевченко",
+  "year": 1840
+}
+
+### Delete book
+DELETE http://localhost:3000/api/books
+
+
+### Get all books1
+GET http://localhost:3000/api/authors/42/books/7
