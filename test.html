@@ -1,0 +1,20 @@
+<ul id="todo-list">
+  <li>Купити молоко <button class="delete-btn">Видалити</button></li>
+  <li>Погодувати кота <button class="delete-btn">Видалити</button></li>
+  <li>Повчити JS <button class="delete-btn">Видалити</button></li>
+</ul>
+
+<script>
+  // Твій код тут:
+  const todoList = document.getElementById("todo-list");
+
+  todoList.addEventListener("click", (e) => {
+    // Реалізуй видалення li тут
+    if (e.target.matches("button")) {
+      const item = e.target.closest("li");
+      if (item) {
+        item.remove();
+      }
+    }
+  });
+</script>
