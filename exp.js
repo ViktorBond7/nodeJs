@@ -1,3 +1,4 @@
+// "use strict";
 // function memoize(fn) {
 //   // Твій код тут (використовуй замикання для збереження об'єкта cache)
 //   const cache = new Map();
@@ -204,22 +205,87 @@
 // // Викликаємо нову функцію і передаємо залишок аргументів
 // console.log(greetMaria("!")); // Має вивести: "Привіт, Марія!"
 
-const arr = [
-  { name: "Alex", age: 20, isActive: false },
-  { name: "Bro", age: 20, isActive: false },
-  { name: "Jon", age: 20, isActive: false },
-];
+// const arr = [
+//   { name: "Alex", age: 20, isActive: false },
+//   { name: "Bro", age: 20, isActive: false },
+//   { name: "Jon", age: 20, isActive: false },
+// ];
 
-// const foo = arr.filter((item) => item.isActive);
+// // const foo = arr.filter((item) => item.isActive);
+// // console.log(foo);
+
+// Array.prototype.castomReduce = function (cb) {
+//   for (let i = 0; i < this.length; i++) {
+//     // console.log("this", this);
+//     if (cb) return true;
+//   }
+// };
+
+// // Array.prototype.castomFilter = castomFilter;
+// const foo = arr.some((item) => item.isActive);
 // console.log(foo);
 
-Array.prototype.castomReduce = function (cb) {
-  for (let i = 0; i < this.length; i++) {
-    // console.log("this", this);
-    if (cb) return true;
-  }
+// Function.prototype.customBind = function (context, ...args) {
+//   // Твій код тут
+//   // Підказка: this всередині цієї функції вказує на саму функцію, яку ми біндимо
+//   const originalFn = this;
+//   return function (...newArgs) {
+//     return originalFn.apply(context, [...args, ...newArgs]);
+//   };
+// };
+/////////////////////////////
+const developer = {
+  name: "Іван",
+  skills: ["JavaScript", "TypeScript", "React"],
+  showSkills() {
+    // Зараз тут звичайна функція, і line-виклики втрачають this
+    this.skills.forEach(function (skill) {
+      console.log(`${this.name} знає ${skill}`);
+    });
+  },
 };
 
-// Array.prototype.castomFilter = castomFilter;
-const foo = arr.some((item) => item.isActive);
-console.log(foo);
+developer.showSkills();
+// Очікується: "Іван знає JavaScript", "Іван знає TypeScript" і т.д.
+// Зараз виводить: "undefined знає JavaScript"
+// \\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+const calculator = {
+  a: 0,
+  b: 0,
+  read(x, y) {
+    this.a = x;
+    this.b = y;
+  },
+  sum() {
+    return this.a + this.b;
+  },
+  mul() {
+    return this.a * this.b;
+  },
+};
+
+// calculator.read(5, 10);
+// console.log(calculator.sum()); // Має вивести 15, але зараз буде NaN або помилка
+// console.log(calculator.mul()); // Має вивести 50
+
+// Ми перебуваємо в глобальному просторі. Тут `this` — це `window`.
+/////////////////////////
+const ladder = {
+  step: 0,
+  // Твій код тут
+  up() {
+    this.step += 1;
+    return this;
+  },
+  down() {
+    this.step -= 1;
+    return this;
+  },
+  showStep() {
+    console.log(this.step);
+  },
+};
+
+// Тест (має працювати саме такий синтаксис):
+// ladder.up().up().down().up().showStep(); // Має вивести в консоль: 2

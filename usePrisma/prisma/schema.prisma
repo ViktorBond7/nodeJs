@@ -53,5 +53,5 @@ model Review {
   createdAt    DateTime @default(now())
   
   recipeId     Int
-  recipe       Recipe   @relation(fields: [recipeId], references: [id])
+  recipe       Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 }
