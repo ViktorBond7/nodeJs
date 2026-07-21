@@ -245,7 +245,7 @@ const developer = {
   },
 };
 
-developer.showSkills();
+// developer.showSkills();
 // Очікується: "Іван знає JavaScript", "Іван знає TypeScript" і т.д.
 // Зараз виводить: "undefined знає JavaScript"
 // \\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -289,3 +289,53 @@ const ladder = {
 
 // Тест (має працювати саме такий синтаксис):
 // ladder.up().up().down().up().showStep(); // Має вивести в консоль: 2
+
+////////////////////////////////////
+
+// // Твій код тут:
+// class EventEmitter {
+//   on() {}
+//   emit() {}
+//   off() {}
+// }
+
+// // Тест:
+// const emitter = new EventEmitter();
+
+// const greet = (name) => console.log(`Привіт, ${name}!`);
+// const ciao = (name) => console.log(`Чао, ${name}!`);
+
+// emitter.on("user-login", greet);
+// emitter.on("user-login", ciao);
+
+// // Має вивести і "Привіт, Андрій!", і "Чао, Андрій!"
+// emitter.emit("user-login", "Андрій");
+
+// emitter.off("user-login", ciao);
+
+// // Має вивести тільки "Привіт, Сергій!" (бо ciao ми видалили)
+// emitter.emit("user-login", "Сергій");
+
+Function.prototype.customApply = function (context, args = []) {
+  context = context || globalThis;
+
+  const fn = Symbol();
+
+  context[fn] = this;
+
+  const result = context[fn](...args);
+
+  delete context[fn];
+
+  return result;
+};
+
+// Example
+function greet(city, country) {
+  console.log(`Hi, I'm ${this.name} from ${city}, ${country}`);
+}
+
+const person = { name: "Alice" };
+
+greet.customApply(person, ["Paris", "France"]);
+// Hi, I'm Alice from Paris, France
