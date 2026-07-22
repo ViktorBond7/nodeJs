@@ -1,5 +1,11 @@
 import type { Request, Response } from "express";
 import prisma from "../../prisma/client.ts";
+import type {
+  RecipeParams,
+  CreateRecipeBody,
+  UpdateRecipeBody,
+  GetRecipesQuery,
+} from "../validators/recipe.validator.ts";
 
 export const getAllRecipes = async (_req: Request, res: Response) => {
   const recipes = await prisma.recipe.findMany({
@@ -12,10 +18,6 @@ export const getAllRecipes = async (_req: Request, res: Response) => {
   res.status(200).json(recipes);
 };
 
-type RecipeParams = {
-  id: string;
-};
-
 export const getRecipeById = async (
   req: Request<RecipeParams>,
   res: Response,
@@ -23,7 +25,7 @@ export const getRecipeById = async (
   const { id } = req.params;
 
   const recipe = await prisma.recipe.findUnique({
-    where: { id: parseInt(id) },
+    where: { id },
     include: {
       category: true,
       tags: true,
@@ -36,17 +38,6 @@ export const getRecipeById = async (
   }
 
   res.status(200).json(recipe);
-};
-
-type CreateRecipeBody = {
-  title: string;
-  ingredients: string[];
-  instructions: string;
-  cookingTime: number;
-  servings: number;
-  chefName: string;
-  categoryId: number;
-  tagIds: number[];
 };
 
 export const createRecipe = async (
@@ -90,8 +81,6 @@ export const createRecipe = async (
 
 import type { Prisma } from "../../generated/prisma/client.ts";
 
-type UpdateRecipeBody = Partial<CreateRecipeBody>;
-
 export const updateRecipe = async (
   req: Request<RecipeParams, {}, UpdateRecipeBody>,
   res: Response,
@@ -130,7 +119,7 @@ export const updateRecipe = async (
   }
 
   const recipe = await prisma.recipe.update({
-    where: { id: parseInt(id) },
+    where: { id },
     data: updateData,
     include: {
       category: true,
@@ -148,7 +137,7 @@ export const deleteRecipe = async (
   const { id } = req.params;
 
   await prisma.recipe.delete({
-    where: { id: parseInt(id) },
+    where: { id },
   });
 
   res.status(204).send();
