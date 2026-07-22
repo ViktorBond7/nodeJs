@@ -1,12 +1,18 @@
 import express from "express";
 import type { NextFunction, Request, Response } from "express";
 import recipesRoutes from "./src/routes/recipes.routes.ts";
+import categoriesRoutes from "./src/routes/categories.routes.ts";
+import tagsRoutes from "./src/routes/tags.routes.ts";
+import reviewsRoutes from "./src/routes/reviews.routes.ts";
 
 const app = express();
 
 app.use(express.json());
 
 app.use("/api/recipes", recipesRoutes);
+app.use("/api/categories", categoriesRoutes);
+app.use("/api/tags", tagsRoutes);
+app.use("/api", reviewsRoutes);
 
 // 404 Not Found handler - must be after all routes
 app.use((_req: Request, res: Response) => {
