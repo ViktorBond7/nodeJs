@@ -8,7 +8,28 @@ import reviewsRoutes from "./src/routes/reviews.routes.ts";
 import swaggerUi from "swagger-ui-express";
 import { generateOpenApiDocument } from "./src/openapi.ts";
 
+import cookieParser from "cookie-parser";
+
 const app = express();
+
+app.use(cookieParser());
+
+app.get("/set", (req: Request, res: Response) => {
+  res.cookie("username", "john", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    maxAge: 24 * 60 * 60 * 1000,
+    domain: "example.com",
+    path: "/dashboard",
+  });
+  res.send("Cookie встановлено");
+});
+
+app.get("/read", (req: Request, res: Response) => {
+  const username = req.cookies.username as string;
+  res.send(`Привіт, ${username}`);
+});
 
 app.use(express.json());
 
@@ -57,3 +78,4 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+//////////////////////
